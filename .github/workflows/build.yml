@@ -49,5 +49,8 @@ jobs:
         
         set PATH=c:\code\depot_tools;%PATH%
         echo %PATH%
-        7z.exe x -y ./depot_tools.zip -o c:\code\depot_tools
+        cp ./automate\automate-git.py c:\code\automate\automate-git.py
+        
+        7z.exe x -y ./depot_tools.zip -oc:\code\depot_tools
+        
         python c:\code\automate\automate-git.py --download-dir=c:\code\chromium_git --depot-tools-dir=c:\code\depot_tools --no-distrib --no-build --branch=4240
