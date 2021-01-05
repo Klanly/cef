@@ -40,4 +40,9 @@ jobs:
         set CEF_USE_GN=1
         set GN_DEFINES=is_official_build=true ffmpeg_branding=Chrome proprietary_codecs=true
         set GN_ARGUMENTS=--ide=vs2017 --sln=cef --filters=//cef/*
+        echo %GN_ARGUMENTS%
+        
+        set PATH=.\depot_tools;%PATH%
+        echo %PATH%
+        
         python .\automate\automate-git.py --download-dir=.\chromium_git --depot-tools-dir=.\depot_tools --no-distrib --no-build --branch=4240
