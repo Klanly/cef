@@ -43,7 +43,8 @@ jobs:
         set CDIR=%~dp0
         echo %CDIR%
         echo "---------------------------------"
-        set PATH=%CDIR%\depot_tools;%PATH%
+        mkdir c:\code
+        set PATH=c:\code\depot_tools;%PATH%
         echo %PATH%
-        
-        python .\automate\automate-git.py --download-dir=chromium_git --depot-tools-dir=depot_tools --no-distrib --no-build --branch=4240
+        cp .\automate\automate-git.py c:\code\automate\automate-git.py
+        python c:\code\automate\automate-git.py --download-dir=c:\code\chromium_git --depot-tools-dir=c:\code\depot_tools --no-distrib --no-build --branch=4240
