@@ -33,9 +33,9 @@ jobs:
       run: |
         echo 'begin cef ---------------------------------'
         echo "---------------------------------"
-        mkdir -p c:\code\automate
-        mkdir -p c:\code\chromium_git
-        mkdir -p c:\code\depot_tools
+        mkdir c:\code\automate
+        mkdir c:\code\chromium_git
+        mkdir c:\code\depot_tools
         
         set PATH=c:\code\depot_tools;%PATH%
         echo %PATH%
