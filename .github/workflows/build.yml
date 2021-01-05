@@ -31,17 +31,7 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       shell: cmd
       run: |
-        python -V
-        msbuild /ver
-        
         echo 'begin cef ---------------------------------'
-        set CEF_USE_GN=1
-        set GN_DEFINES=is_official_build=true ffmpeg_branding=Chrome proprietary_codecs=true
-        set GN_ARGUMENTS=--ide=vs2017 --sln=cef --filters=//cef/*
-        echo %GN_ARGUMENTS%
-        
-        set CDIR=%~dp0
-        echo %CDIR%
         echo "---------------------------------"
         mkdir -p c:\code\automate
         mkdir -p c:\code\chromium_git
@@ -49,8 +39,14 @@ jobs:
         
         set PATH=c:\code\depot_tools;%PATH%
         echo %PATH%
-        cp ./automate\automate-git.py c:\code\automate\automate-git.py
+        
+        cp .\automate-git.py c:\code\automate\automate-git.py
+        cp .\update.bat c:\code\chromium_git
+        cp .\build.bat c:\code\chromium_git
+        cp .\build_x64.bat c:\code\chromium_git
         
         7z.exe x -y ./depot_tools.zip -oc:\code\depot_tools
         
-        python c:\code\automate\automate-git.py --download-dir=c:\code\chromium_git --depot-tools-dir=c:\code\depot_tools --no-distrib --no-build --branch=4240
+        call c:\code\chromium_git\update.bat
+        call c:\code\chromium_git\build.bat
+        call c:\code\chromium_git\build_x64.bat
