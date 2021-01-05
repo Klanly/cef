@@ -42,7 +42,10 @@ jobs:
         set GN_ARGUMENTS=--ide=vs2017 --sln=cef --filters=//cef/*
         echo %GN_ARGUMENTS%
         
-        set PATH=${{env.GITHUB_WORKSPACE}}\depot_tools;%PATH%
+        set CDIR=%~dp0
+        echo %CDIR%
+        echo "---------------------------------"
+        set PATH=%CDIR%\depot_tools;%PATH%
         echo %PATH%
         
         python .\automate\automate-git.py --download-dir=.\chromium_git --depot-tools-dir=.\depot_tools --no-distrib --no-build --branch=4240
