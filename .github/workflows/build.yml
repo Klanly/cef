@@ -1,4 +1,4 @@
-name: build
+name: build 4240
 
 on: [push]
 
@@ -12,41 +12,60 @@ env:
   BUILD_CONFIGURATION: Release
 
 jobs:
-  build:
+  update:
+    name: update
     runs-on: windows-latest
-
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1
+       - uses: actions/checkout@v2
+       - name: Add MSBuild to PATH
+         uses: microsoft/setup-msbuild@v1
       
-    - name: Set up Python 2.x
-      uses: actions/setup-python@v2
-      with:
-        python-version: '2.x'
-        architecture: 'x64'
+       - name: Set up Python 2.x
+         uses: actions/setup-python@v2
+         with:
+          python-version: '2.x'
+          architecture: 'x64'
 
-    - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      shell: cmd
-      run: |
-        echo 'begin cef ---------------------------------'
-        echo "---------------------------------"
-        mkdir c:\code\automate
-        mkdir c:\code\chromium_git
-        mkdir c:\code\depot_tools
+       - name: Update
+         working-directory: ${{env.GITHUB_WORKSPACE}}
+         shell: cmd
+         run: |
+           echo 'begin cef ---------------------------------'
+           echo "---------------------------------"
+           mkdir c:\code\automate
+           mkdir c:\code\chromium_git
+           mkdir c:\code\depot_tools
         
-        set PATH=c:\code\depot_tools;%PATH%
-        echo %PATH%
+           set PATH=c:\code\depot_tools;%PATH%
+           echo %PATH%
         
-        cp .\automate-git.py c:\code\automate\automate-git.py
-        cp .\update.bat c:\code\chromium_git
-        cp .\build.bat c:\code\chromium_git
-        cp .\build_x64.bat c:\code\chromium_git
+           cp .\automate-git.py c:\code\automate\automate-git.py
+           cp .\update.bat c:\code\chromium_git
+           cp .\build.bat c:\code\chromium_git
+           cp .\build_x64.bat c:\code\chromium_git
         
-        7z.exe x -y ./depot_tools.zip -oc:\code\depot_tools
+           7z.exe x -y ./depot_tools.zip -oc:\code\depot_tools
         
-        call c:\code\chromium_git\update.bat
-        call c:\code\chromium_git\build.bat
-        call c:\code\chromium_git\build_x64.bat
+           call c:\code\chromium_git\update.bat
+    
+  build_x86:
+    runs-on: windows-latest
+    needs: [update]
+    steps:
+      - name: Build X86
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        shell: cmd
+        run: |
+           call c:\code\chromium_git\build.bat
+           
+  build_x64:
+    runs-on: windows-latest
+    needs: [update,build_x86]
+    steps:
+      - name: Build X64
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        shell: cmd
+        run: |
+           call c:\code\chromium_git\build_x64.bat
+        
+   
