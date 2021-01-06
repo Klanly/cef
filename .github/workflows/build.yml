@@ -30,8 +30,7 @@ jobs:
          working-directory: ${{env.GITHUB_WORKSPACE}}
          shell: cmd
          run: |
-           echo 'begin cef ---------------------------------'
-           echo "---------------------------------"
+           echo 'begin cef update---------------------------------'
            mkdir c:\code\automate
            mkdir c:\code\chromium_git
            mkdir c:\code\depot_tools
@@ -56,6 +55,8 @@ jobs:
         working-directory: ${{env.GITHUB_WORKSPACE}}
         shell: cmd
         run: |
+           echo 'begin cef build x86---------------------------------'
+           dir c:\code\chromium_git\
            call c:\code\chromium_git\build.bat
            
   build_x64:
@@ -66,6 +67,8 @@ jobs:
         working-directory: ${{env.GITHUB_WORKSPACE}}
         shell: cmd
         run: |
+           echo 'begin cef build x64---------------------------------'
+           dir c:\code\chromium_git\
            call c:\code\chromium_git\build_x64.bat
         
    
