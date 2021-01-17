@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: download netcore sdk 6 windows installer
 
 on:
   push:
@@ -11,8 +11,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
+
+
     steps:
     - name : download netsdk installer
       run : |
         wget https://aka.ms/dotnet/net6/dev/Sdk/dotnet-sdk-win-x64.exe
- 
+        
+    - uses: actions/upload-artifact@v2
+      with:
+        name: dotnet sdk 6 artifact
+        key: dotnet-sdk-win-x64.exe  
