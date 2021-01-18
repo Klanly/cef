@@ -28,4 +28,4 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         source: "dotnet-sdk-win-x64.exe"
-        target: "dotnet6/dotnet-sdk-win-x64.exe"
+        target: "dotnet6"
