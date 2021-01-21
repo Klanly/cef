@@ -9,22 +9,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name : download and commit to repo
-        run : |
-          git config --global user.name '${{ secrets.GIT_USER }}'
-          git config --global user.email '${{ secrets.GIT_EMAIL }}'
-          git config --global user.password '${{ secrets.GIT_PWD }}'
-         
-          echo '${{ secrets.GIT_CEF_BUILD_TOKEN }}'
-          git clone https://github.com/pedoc/cef.git
-          
-          cd cef
-        
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GIT_CEF_BUILD_TOKEN }}
+      - name: download and commit to repo
+        run: |
           echo 'downloading'
           wget https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.msi
-         
           git add -A
           git commit -am "Automated commit"
           git push
