@@ -9,23 +9,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name : download netsdk installer
-      run : |
-        wget https://aka.ms/dotnet/net6/dev/Sdk/dotnet-sdk-win-x64.exe
-        
-    - uses: actions/upload-artifact@v2
-      with:
-        name: dotnet sdk 6 artifact
-        path: dotnet-sdk-win-x64.exe
-        
-    - name: upload to *.*.48.225
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        source: "dotnet-sdk-win-x64.exe"
-        target: "dotnet6"
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GIT_CEF_BUILD_TOKEN }}
+     
+      - name: download and commit to repo
+        run: |
+          echo 'downloading'
+          wget https://aka.ms/dotnet/net6/dev/Sdk/dotnet-sdk-win-x64.exe
+          git config --global user.name 'pedoc'
+          git config --global user.email 'pedoc@qq.com'
+          git add -A
+          git commit -am "Automated commit"
+          git push
