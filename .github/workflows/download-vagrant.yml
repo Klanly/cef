@@ -1,0 +1,26 @@
+name: download vagrant
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name : download vagrant installer
+        run : |
+          wget https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.msi
+      - name : commit to repo
+        run : |
+          git config --global user.name '${{ secrets.GIT_USER }}'
+          git config --global user.email '${{ secrets.GIT_EMAIL }}'
+          git remote set-url origin https://x-access-token:${{ secrets.GIT_CEF_BUILD_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git checkout "${GITHUB_REF:11}"
+          git add -A
+          git commit -am "Automated commit"
+          git push
