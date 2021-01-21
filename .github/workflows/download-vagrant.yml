@@ -11,14 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
       - name : download and commit to repo
         run : |
           git config --global user.name '${{ secrets.GIT_USER }}'
           git config --global user.email '${{ secrets.GIT_EMAIL }}'
          
           git clone https://oauth2:58d0a05aa88f8f6d231a51841dd1452e2e94b231@github.com/pedoc/cef
+          git checkout -b master
+          
+          echo 'downloading'
           wget https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.msi
+         
           git add -A
           git commit -am "Automated commit"
           git push
