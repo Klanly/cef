@@ -16,9 +16,7 @@ jobs:
         run : |
           git config --global user.name '${{ secrets.GIT_USER }}'
           git config --global user.email '${{ secrets.GIT_EMAIL }}'
-          git remote set-url origin https://x-access-token:${{ secrets.GIT_CEF_BUILD_TOKEN }}@github.com/$GITHUB_REPOSITORY
-          echo https://x-access-token:${{ secrets.GIT_CEF_BUILD_TOKEN }}@github.com/$GITHUB_REPOSITORY
-          git checkout "${GITHUB_REF:11}"
+          git clone https://oauth2:${{ secrets.GIT_CEF_BUILD_TOKEN }}@github.com/$GITHUB_REPOSITORY
           wget https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.msi
           git add -A
           git commit -am "Automated commit"
