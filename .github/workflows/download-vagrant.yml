@@ -17,6 +17,8 @@ jobs:
         run: |
           echo 'downloading'
           wget https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.msi
+          git config --global user.name 'pedoc'
+          git config --global user.email 'pedoc@qq.com'
           git add -A
           git commit -am "Automated commit"
           git push
