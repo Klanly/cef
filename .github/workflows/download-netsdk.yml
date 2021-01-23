@@ -16,10 +16,20 @@ jobs:
      
       - name: download and commit to repo
         run: |
-          echo 'downloading'
-          wget https://aka.ms/dotnet/net6/dev/Sdk/dotnet-sdk-win-x64.exe
+          
           git config --global user.name 'pedoc'
           git config --global user.email 'pedoc@qq.com'
+          
+          git checkout -b netcore-sdk-archive
+          dir=$(date -d "today" +"%Y%m%d_%H%M%S")
+          mkdir $dir
+          cd $dir
+
+          echo 'downloading'
+          wget https://aka.ms/dotnet/net6/dev/Sdk/dotnet-sdk-win-x64.exe
+          
+          tar czf - dotnet-sdk-win-x64.exe | split -b 99m - dotnet-sdk-win-x64.tar.gz
+          
           git add -A
           git commit -am "Automated commit"
           git push
