@@ -29,6 +29,7 @@ jobs:
           wget https://aka.ms/dotnet/net6/dev/Sdk/dotnet-sdk-win-x64.exe
           
           tar czf - dotnet-sdk-win-x64.exe | split -b 49m - dotnet-sdk-win-x64.tar.gz
+          rm -f dotnet-sdk-win-x64.exe
           
           git add -A
           git commit -am "Automated commit"
