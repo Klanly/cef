@@ -32,4 +32,4 @@ jobs:
           
           git add -A
           git commit -am "Automated commit"
-          git push
+          git push --set-upstream origin netcore-sdk-archive
