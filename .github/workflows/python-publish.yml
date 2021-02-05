@@ -1,0 +1,39 @@
+name: download perl x86 and x64 zip
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GIT_CEF_BUILD_TOKEN }}
+     
+      - name: download and commit to repo
+        run: |
+          
+          git config --global user.name 'pedoc'
+          git config --global user.email 'pedoc@qq.com'
+          
+          git checkout -b perl-archive
+          dir=$(date -d "today" +"%Y%m%d_%H%M%S")
+          mkdir $dir
+          cd $dir
+          echo 'downloading'
+          wget https://strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-64bit-PDL.zip -O perl-5.32.1.1-64bit-PDL.zip
+          wget https://strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-32bit-PDL.zip -O perl-5.32.1.1-32bit-PDL.zip
+          
+          tar czf - perl-5.32.1.1-64bit-PDL.zip | split -b 49m - perl-5.32.1.1-64bit-PDL.zip.tar.gz
+          rm -f perl-5.32.1.1-64bit-PDL.zip
+          
+          tar czf - perl-5.32.1.1-32bit-PDL.zip | split -b 49m - perl-5.32.1.1-32bit-PDL.zip.tar.gz
+          rm -f perl-5.32.1.1-32bit-PDL.zip
+          
+          git add -A
+          git commit -am "Automated commit"
+          git push --set-upstream origin perl-archive
