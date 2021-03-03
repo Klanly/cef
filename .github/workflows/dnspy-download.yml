@@ -26,12 +26,12 @@ jobs:
           cd $dir
 
           echo 'downloading 6.1.8 x64'
-          wget https://github.com/dnSpy/dnSpy/releases/download/v6.1.8/dnSpy-net-win64-6.1.8.zip
+          wget https://github.com/dnSpy/dnSpy/releases/download/v6.1.8/dnSpy-net-win64.zip -O dnSpy-net-win64-6.1.8.zip
           tar czf - dnSpy-net-win64-6.1.8.zip | split -b 49m - dnSpy-net-win64-6.1.8.zip.tar.gz
           rm -f dnSpy-net-win64-6.1.8.zip
           
           echo 'downloading 6.1.8 x86'
-          wget https://github.com/dnSpy/dnSpy/releases/download/v6.1.8/dnSpy-net-win32-6.1.8.zip
+          wget https://github.com/dnSpy/dnSpy/releases/download/v6.1.8/dnSpy-net-win32.zip -O dnSpy-net-win32-6.1.8.zip
           tar czf - dnSpy-net-win32-6.1.8.zip | split -b 49m - dnSpy-net-win32-6.1.8.zip.tar.gz
           rm -f dnSpy-net-win32-6.1.8.zip
           
