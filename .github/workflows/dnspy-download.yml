@@ -1,0 +1,40 @@
+name: download dnspy x86 and x64
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GIT_CEF_BUILD_TOKEN }}
+     
+      - name: download and commit to repo
+        run: |
+          
+          git config --global user.name 'pedoc'
+          git config --global user.email 'pedoc@qq.com'
+          
+          git checkout -b dnspy-archive
+          dir=$(date -d "today" +"%Y%m%d_%H%M%S")
+          mkdir $dir
+          cd $dir
+
+          echo 'downloading 6.1.8 x64'
+          wget https://github.com/dnSpy/dnSpy/releases/download/v6.1.8/dnSpy-net-win64-6.1.8.zip
+          tar czf - dnSpy-net-win64-6.1.8.zip | split -b 49m - dnSpy-net-win64-6.1.8.zip.tar.gz
+          rm -f dnSpy-net-win64-6.1.8.zip
+          
+          echo 'downloading 6.1.8 x86'
+          wget https://github.com/dnSpy/dnSpy/releases/download/v6.1.8/dnSpy-net-win32-6.1.8.zip
+          tar czf - dnSpy-net-win32-6.1.8.zip | split -b 49m - dnSpy-net-win32-6.1.8.zip.tar.gz
+          rm -f dnSpy-net-win32-6.1.8.zip
+          
+          git add -A
+          git commit -am "Automated commit"
+          git push --set-upstream origin dnspy-archive
