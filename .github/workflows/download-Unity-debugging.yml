@@ -1,0 +1,35 @@
+name: download dnspy x86 and x64
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GIT_CEF_BUILD_TOKEN }}
+     
+      - name: download and commit to repo
+        run: |
+          
+          git config --global user.name 'pedoc'
+          git config --global user.email 'pedoc@qq.com'
+          
+          git checkout -b dnspy-Unity-debug
+          dir=$(date -d "today" +"%Y%m%d_%H%M%S")
+          mkdir $dir
+          cd $dir
+
+          echo 'downloading download-Unity-debugging-5.x.zip'
+          wget https://dl0.serctl.com/downloads2/2020-08-07-01-48-55-download-Unity-debugging-5.x.zip -O ./2020-08-07-01-48-55-download-Unity-debugging-5.x.zip
+          tar czf - 2020-08-07-01-48-55-download-Unity-debugging-5.x.zip | split -b 49m - 2020-08-07-01-48-55-download-Unity-debugging-5.x.zip.gz
+          rm -f 2020-08-07-01-48-55-download-Unity-debugging-5.x.zip
+
+          git add -A
+          git commit -am "Automated commit"
+          git push --set-upstream origin dnspy-archive
